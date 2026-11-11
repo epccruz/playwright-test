@@ -38,6 +38,16 @@ export class AsyncActionsDashboardPage extends DashboardPage {
     await expect(this.simulateAsyncOperationButton).toHaveText(/simulate async operation/i);
   }
 
+  async mockMetricsApi(status: number, payload: Record<string, string | number | null>): Promise<void> {
+    await this.page.route('**/api/v1/metrics', async (route) => {
+      await route.fulfill({
+        status,
+        contentType: 'application/json',
+        body: JSON.stringify(payload),
+      });
+    })
+  }
+
   async fetchMetricsApi(): Promise<void> {
     await this.fetchMetricsApiButton.click();
   }
@@ -45,5 +55,9 @@ export class AsyncActionsDashboardPage extends DashboardPage {
   async assertMetricsApiResult(response: string): Promise<void> {
     await expect(this.apiMetricsResultContainer).toBeVisible();
     await expect(this.apiMetricsResultContainer).toHaveText(new RegExp(response));
+  }
+
+  route(...args: Parameters<Page['route']>): ReturnType<Page['route']> {
+    return this.page.route(...args);
   }
 }

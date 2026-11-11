@@ -23,4 +23,8 @@ export class DashboardPage {
     await this.page.goto(DASHBOARD_PAGE);
     await expect(this.welcomeBannerSection).toBeVisible();
   }
+
+  async navigateToSettingsPage(): Promise<void> {
+    await this.page.getByRole('link', { name: /System Settings & Logs/i }).click();
+  }
 }

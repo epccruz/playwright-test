@@ -1,5 +1,5 @@
 import { test , expect } from '@playwright/test';
-import { LoginPage } from '../../src/page-objects/Login';
+import { LoginPage } from '../../src/page-objects/base/Login';
 import path from 'path';
 
 const {
