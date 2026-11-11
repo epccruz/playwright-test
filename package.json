@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-app": "npx http-server . -p 8080",
-    "setenv": "set -a; source .env; set +a",
+    "start-app": "npx http-server ./app-dashboard -p 8080",
     "e2e": "npx playwright test --headed --trace on"
   },
   "keywords": [],
