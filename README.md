@@ -93,3 +93,5 @@ Run with UI mode:
 npx playwright test --ui
 ```
 
+Sample Test Run:
+![alt text](image.png)
