@@ -4,12 +4,14 @@ import { DashboardPage } from '../page-objects/base/Dashboard';
 import { SettingsPage } from '../page-objects/base/Settings';
 import { LoginPage } from '../page-objects/base/Login';
 import { AsyncActionsDashboardPage } from '../page-objects/AsyncActionsDashboard';
+import { TestExecutionConfigurationPage } from '../page-objects/TestExecutionConfiguration';
 
 type Pages = {
   dashboardPage: DashboardPage;
   settingsPage: SettingsPage;
   loginPage: LoginPage;
   asyncActionsPage: AsyncActionsDashboardPage;
+  testExecutionPage: TestExecutionConfigurationPage;
 };
 
 export const test = base.extend<Pages>({
@@ -24,5 +26,8 @@ export const test = base.extend<Pages>({
   },
   asyncActionsPage: async ({ page }, use) => {
     await use(new AsyncActionsDashboardPage(page));
+  },
+  testExecutionPage: async ({ page }, use) => {
+    await use(new TestExecutionConfigurationPage(page));
   }
 });

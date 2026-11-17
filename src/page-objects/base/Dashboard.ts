@@ -9,19 +9,30 @@ export class DashboardPage {
   readonly welcomeBannerSection: Locator;
   readonly asyncActionsSection: Locator;
   readonly projectItemsSection: Locator;
+  readonly testExecutionConfiguration: Locator;
 
   constructor(page: Page) {
     this.page = page;
 
-    // Sections
     this.welcomeBannerSection = page.getByText(/welcome back/i);
-    this.asyncActionsSection = page.getByText(/Async Actions & Network Mocking/i);
-    this.projectItemsSection = page.getByText(/Project Items & Records/i);
+    // Sections
+    this.asyncActionsSection = page.locator('section').filter({
+      has: page.getByRole('heading', { name: /Async Actions & Network Mocking/i }),
+    });
+
+    this.testExecutionConfiguration = page.locator('section').filter({
+      has: page.getByRole('heading', { name: /Test Execution Configuration/i }),
+    });
+
+    this.projectItemsSection = page.locator('section').filter({
+      has: page.getByRole('heading', { name: /Project Items & Records/i }),
+    });
   }
 
   async goto(): Promise<void> {
     await this.page.goto(DASHBOARD_PAGE);
     await expect(this.welcomeBannerSection).toBeVisible();
+    
   }
 
   async navigateToSettingsPage(): Promise<void> {

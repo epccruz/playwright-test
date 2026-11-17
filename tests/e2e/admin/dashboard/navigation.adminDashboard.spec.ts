@@ -6,6 +6,7 @@ test('dashboard view', async ({ dashboardPage }) => {
   await expect(dashboardPage.welcomeBannerSection).toBeVisible();
   await expect(dashboardPage.asyncActionsSection).toBeVisible();
   await expect(dashboardPage.projectItemsSection).toBeVisible();
+  await expect(dashboardPage.testExecutionConfiguration).toBeVisible();
 });
 
 test('dashboard navigation to settings', async ({ dashboardPage, settingsPage }) => {
