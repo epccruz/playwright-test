@@ -103,6 +103,7 @@
                     <li><strong class="text-slate-200">RBAC Verification:</strong> Confirm standard user cannot click disabled delete buttons.</li>
                     <li><strong class="text-slate-200">Route Interception:</strong> Intercept <code>/api/v1/metrics</code> using <code>page.route()</code>.</li>
                     <li><strong class="text-slate-200">Multi-Page Navigation:</strong> Navigate via hash <code>#/settings</code> and verify DOM elements.</li>
+                    <li><strong class="text-slate-200">Form Locators:</strong> Practice <code>getByLabel</code>, <code>selectOption</code>, radio <code>check()</code>, and <code>textarea</code> assertions.</li>
                 </ul>
             </div>
         </aside>
@@ -190,6 +191,84 @@
                             </div>
                         </div>
                     </div>
+                </section>
+
+                <!-- NEW SECTION: Locator & Form Controls Sandbox -->
+                <section class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+                    <div>
+                        <h3 class="text-base font-semibold text-slate-100 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            Test Execution Configuration (Form Controls)
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">Practice Playwright locators: text input, select dropdown, radio buttons, and textarea.</p>
+                    </div>
+
+                    <form id="test-config-form" data-testid="test-config-form" onsubmit="handleConfigSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Text Form Field -->
+                            <div>
+                                <label for="suite-name-input" class="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Test Suite Name</label>
+                                <input type="text" id="suite-name-input" name="suiteName" data-testid="suite-name-input" required
+                                    placeholder="e.g., Regression Smoke Suite"
+                                    class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                            </div>
+
+                            <!-- Dropdown Select -->
+                            <div>
+                                <label for="target-env-select" class="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Target Environment</label>
+                                <select id="target-env-select" name="targetEnv" data-testid="target-env-select"
+                                    class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                    <option value="staging">Staging (staging.company.io)</option>
+                                    <option value="qa">QA Sandbox (qa.company.io)</option>
+                                    <option value="prod">Production Read-Only (app.company.io)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Radio Button Group -->
+                        <fieldset class="bg-slate-950 p-3.5 rounded-lg border border-slate-800">
+                            <legend class="text-xs font-medium text-slate-300 uppercase tracking-wider px-1">Execution Priority</legend>
+                            <div class="flex flex-wrap gap-6 mt-2">
+                                <label for="priority-low" class="inline-flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                    <input type="radio" id="priority-low" name="executionPriority" value="low" data-testid="radio-priority-low"
+                                        class="text-indigo-600 bg-slate-900 border-slate-700 focus:ring-indigo-500">
+                                    <span>Low (Nightly)</span>
+                                </label>
+                                <label for="priority-medium" class="inline-flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                    <input type="radio" id="priority-medium" name="executionPriority" value="medium" data-testid="radio-priority-medium" checked
+                                        class="text-indigo-600 bg-slate-900 border-slate-700 focus:ring-indigo-500">
+                                    <span>Medium (Standard)</span>
+                                </label>
+                                <label for="priority-high" class="inline-flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+                                    <input type="radio" id="priority-high" name="executionPriority" value="high" data-testid="radio-priority-high"
+                                        class="text-indigo-600 bg-slate-900 border-slate-700 focus:ring-indigo-500">
+                                    <span>High (Release Blocker)</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <!-- Textarea -->
+                        <div>
+                            <label for="release-notes-textarea" class="block text-xs font-medium text-slate-300 uppercase tracking-wider mb-1">Release Notes & Test Scope</label>
+                            <textarea id="release-notes-textarea" name="releaseNotes" data-testid="release-notes-textarea" rows="3"
+                                placeholder="Enter detailed test notes, feature flags, or edge cases to cover..."
+                                class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-1">
+                            <button type="button" onclick="resetConfigForm()" data-testid="reset-config-btn"
+                                class="px-3 py-2 rounded-lg border border-slate-700 text-xs font-medium text-slate-300 hover:bg-slate-800 transition">
+                                Reset Fields
+                            </button>
+                            <button type="submit" data-testid="save-config-btn"
+                                class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-4 py-2 rounded-lg font-medium shadow transition">
+                                Save Execution Config
+                            </button>
+                        </div>
+
+                        <!-- Submitted Output Feedback -->
+                        <div id="config-output" data-testid="config-output-container" class="hidden p-3 rounded-lg bg-slate-950 border border-emerald-900/60 text-xs font-mono text-emerald-400 whitespace-pre-wrap"></div>
+                    </form>
                 </section>
 
                 <!-- RBAC Workspace Data Table -->
@@ -488,6 +567,32 @@
             } else {
                 adminSection.classList.add('hidden');
             }
+        }
+
+        // Form Controls Sandbox Handlers
+        function handleConfigSubmit(e) {
+            e.preventDefault();
+            const suiteName = document.getElementById('suite-name-input').value.trim();
+            const targetEnv = document.getElementById('target-env-select').value;
+            const selectedPriority = document.querySelector('input[name="executionPriority"]:checked')?.value || 'medium';
+            const releaseNotes = document.getElementById('release-notes-textarea').value.trim();
+            const outputBox = document.getElementById('config-output');
+
+            outputBox.textContent = JSON.stringify({
+                saved: true,
+                suiteName,
+                targetEnv,
+                priority: selectedPriority,
+                notes: releaseNotes || '(none)'
+            }, null, 2);
+            outputBox.classList.remove('hidden');
+        }
+
+        function resetConfigForm() {
+            document.getElementById('test-config-form').reset();
+            const outputBox = document.getElementById('config-output');
+            outputBox.classList.add('hidden');
+            outputBox.textContent = '';
         }
 
         // RBAC Table Rendering Logic
